@@ -1,0 +1,29 @@
+1. redis server  --- sudo apt install redis-server {sudo apt install redis-server -y}
+    redis-server {to start redis server}
+    How to shut it down ctrl+c [if im on the terminal] [if not] sudo service redis-server stop
+
+2. GUI for redis-server is Redis Insight (similar to gui for sqlite is DBbrowser/sqlitebrowser)
+    - im istalling it in windows, but the redis server is in wsl ubuntu
+    - to communicate it uses ip address
+
+3. for caching we are using flask_caching
+
+
+4. to communicate with redis server, we need the redis library,
+    - we will be installing that in the venv, pip install redis
+------
+
+5. for the celery functionalities, we need the celery library 
+    - we will be installing that in the venv, pip instal celery
+    - by default time zone is utc, for ist we need to mention it in the celery config
+    - for more details, please watch the recording
+
+6. dev smtp server, it will be runiing on your local systm, ervice provider, - mailhog / mailpit / etc
+    - we will use mailhog
+    - install go, sudo apt-get -y install golang-go
+    - install mailhog by using go, go install github.com/mailhog/MailHog@latest 
+    - to start the mailhog server, ~/go/bin/MailHog
+
+7. to create a email message, and to send it we will be using the flask_mail library
+    - install it in the venv, pip install flask_mail
+
