@@ -9,7 +9,8 @@ from caching import cache
 class ProductResource(Resource):
     @roles_accepted('admin', 'manager')
     def post(self):
-        data = request.get_json()
+        # data = request.get_json()
+        data = request.form
         name = data['name']
         if not name:
             return make_response(jsonify({"message": "name is required"}), 404)
@@ -28,11 +29,28 @@ class ProductResource(Resource):
         if not category_id:
             return make_response(jsonify({"message": "category_id is required"}), 404)
         
+        image = request.files['img']
+        print(image)
+        if not image:
+            return make_response(jsonify({"message": "image is required"}), 404)
+
         if check:
             # if current_user.has_role('admin'):
             product = Product(name=name, description=description, price=price, stock=stock, category_id=category_id, created_by=current_user.id)
             db.session.add(product)
-            db.session.commit()
+            db.session.flush()
+
+            prod_id = product.id
+            print(prod_id)
+
+            if prod_id:
+                import os
+                filename = f"{prod_id}.jpg"
+                img_path = os.path.join('database/prodImg', filename)
+                print(img_path)
+                image.save(img_path)
+                # product.path = img_path
+                db.session.commit()
             return make_response(jsonify({"message": "category created successfully", "id": product.id, "name": product.name}), 201)
         return make_response(jsonify({"message": "category_id is not present"}), 404)
         

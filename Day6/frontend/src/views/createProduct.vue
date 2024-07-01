@@ -9,7 +9,9 @@
             <label for="cars">Choose a category:</label>
             <select name="cars" id="cars" v-model="this.id" v-if="categories">
                 <option v-for="category in this.categories" :key="category.id"  :value=" category.id ">{{ category.name }}</option>
-            </select>
+            </select><br><br>
+            <label for="img">prod img: </label>
+            <input type="file" name="img" id="omg" @change="addimg">
             <button type="button" @click="addProd">Create</button>
         </form>
         <p>{{ this.message }}</p>
@@ -31,6 +33,7 @@ export default{
             stock: null,
             id: null,
             categories: null,
+            img: null
         }
     },
     created(){
@@ -43,10 +46,26 @@ export default{
         }
     },
     methods: {
+        addimg(event){
+            this.img = event.target.files[0]
+            // console.log(this.img);
+        },
         addProd(){
+            let formdata = new FormData()
+            formdata.append('name', this.name)
+            formdata.append('description', this.desc)
+            formdata.append('price', this.price)
+            formdata.append('stock', this.stock)
+            formdata.append('category_id', this.id)
+            if(this.img){
+                formdata.append('img', this.img)
+            }else{
+                alert('please select an image')
+            }
             axios
             .post('http://localhost:5000/api/product',
-            {name: this.name, description: this.desc, price: this.price, stock: this.stock, category_id: this.id},
+            // {name: this.name, description: this.desc, price: this.price, stock: this.stock, category_id: this.id},
+            formdata,
             {headers: {Authorization: `${this.token}`},}
             )
             .then(response => {

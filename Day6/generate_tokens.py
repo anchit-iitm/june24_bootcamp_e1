@@ -1,7 +1,7 @@
 from app import create_app
 from database.models import user_datastore
 
-app, api = create_app()
+app, api, _ = create_app()
 
 def generate_sample_token():
     tokens = {"Admin": "", "Manager": "", "Customer": ""}

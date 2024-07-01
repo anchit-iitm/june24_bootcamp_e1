@@ -36,6 +36,7 @@
                         <th>desc</th>
                         <th>status | delete</th>
                         <th>action</th>
+                        <th>image</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,7 @@
                             | 
                             <button v-if="!product.delete" @click="deleteProduct(product.id)">delete</button>
                         </td>
+                        <td><img :src="`http://localhost:8000/${product.id}.jpg`" alt="" height="20" width="20"></td>
                     </tr>
                 </tbody>
             </table>
